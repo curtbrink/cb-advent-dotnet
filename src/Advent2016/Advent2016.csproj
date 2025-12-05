@@ -10,4 +10,10 @@
       <ProjectReference Include="..\AdventBase\AdventBase.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="Inputs\**\*">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>

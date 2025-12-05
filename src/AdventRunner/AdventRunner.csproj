@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Advent2016\Advent2016.csproj" />
       <ProjectReference Include="..\Advent2025\Advent2025.csproj" />
       <ProjectReference Include="..\AdventBase\AdventBase.csproj" />
     </ItemGroup>

@@ -1,8 +1,9 @@
 ﻿using Advent2025.Solutions;
+using AdventTestsBase;
 
 namespace AdventTests.Solutions;
 
-public class Solution01Tests
+public class Solution01Tests : AdventSolutionTests<Solution01>
 {
     [Fact]
     public void Solution01TestZeroes()
@@ -42,6 +43,4 @@ public class Solution01Tests
         var actualP2 = solution.ZeroCount;
         Assert.Equal(17, actualP2);
     }
-
-    private static Solution01 GetSut() => new();
 }

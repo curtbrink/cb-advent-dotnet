@@ -1,8 +1,9 @@
 using Advent2025.Solutions;
+using AdventTestsBase;
 
 namespace AdventTests.Solutions;
 
-public class Solution03Tests
+public class Solution03Tests : AdventSolutionTests<Solution03>
 {
     [Theory]
     [InlineData("987654321111111", 98)]
@@ -31,6 +32,4 @@ public class Solution03Tests
 
         Assert.Equal(maxJoltage, solution.MaxJoltage);
     }
-    
-    private Solution03 GetSut() => new();
 }

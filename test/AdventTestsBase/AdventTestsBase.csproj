@@ -5,7 +5,6 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <IsPackable>false</IsPackable>
-        <RootNamespace>AdventTests</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -20,14 +19,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="TestInputs\**\*">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-    </ItemGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\..\src\Advent2025\Advent2025.csproj" />
-      <ProjectReference Include="..\AdventTestsBase\AdventTestsBase.csproj" />
+      <ProjectReference Include="..\..\src\AdventBase\AdventBase.csproj" />
     </ItemGroup>
 
 </Project>

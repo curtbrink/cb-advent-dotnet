@@ -1,8 +1,9 @@
 using Advent2025.Solutions;
+using AdventTestsBase;
 
 namespace AdventTests.Solutions;
 
-public class Solution02Tests
+public class Solution02Tests : AdventSolutionTests<Solution02>
 {
     [Theory]
     [InlineData("11-22", 33)]
@@ -43,6 +44,4 @@ public class Solution02Tests
 
         Assert.Equal(expectedSum, sol.InvalidIdSum);
     }
-    
-    private Solution02 GetSut() => new();
 }

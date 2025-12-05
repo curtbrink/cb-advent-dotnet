@@ -1,8 +1,9 @@
 using Advent2025.Solutions;
+using AdventTestsBase;
 
 namespace AdventTests.Solutions;
 
-public class Solution04Tests
+public class Solution04Tests : AdventSolutionTests<Solution04>
 {
     [Theory]
     [InlineData("testinput01.txt", 13)]
@@ -31,6 +32,4 @@ public class Solution04Tests
 
         Assert.Equal(paperRolls, solution.PaperRolls);
     }
-    
-    private Solution04 GetSut() => new();
 }
