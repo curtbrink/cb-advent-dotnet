@@ -1,8 +1,8 @@
 ﻿using AdventBase;
 
 // ======= SET THESE
-var year = 2016;
-var id = "01";
+var year = 2025;
+var id = "05";
 
 // ======= DON'T CHANGE BELOW THIS LINE
 
@@ -15,7 +15,7 @@ var years = new Dictionary<int, AdventYear>
 var y = years[year];
 var solution = y.GetSolution(id);
 var separator = y.IsOneLine(id) ? ',' : '\n';
-var lines = y.GetFileContents(id).Split(separator).Select(l => l.Trim()).Where(l => !string.IsNullOrEmpty(l)).ToList();
+var lines = y.GetFileContents(id).Split(separator).Select(l => l.Trim()).ToList();
 
 Console.WriteLine("=== part one ===");
 solution.Run(lines);
