@@ -4,6 +4,7 @@ public abstract class AdventYear
 {
     public abstract Solution GetSolution(string id);
     public abstract bool IsOneLine(string id);
+    public abstract bool ShouldTrimLines(string id);
     public abstract string GetFileContents(string id);
 }
 

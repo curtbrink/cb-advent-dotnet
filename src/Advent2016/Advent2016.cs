@@ -17,5 +17,7 @@ public class Advent2016 : AdventYear<Advent2016>
         _ => false,
     };
 
+    public override bool ShouldTrimLines(string id) => true;
+
     public override string GetFileContents(string id) => File.ReadAllText($"Inputs/2016-{id}.txt");
 }

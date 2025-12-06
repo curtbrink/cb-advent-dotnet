@@ -2,7 +2,7 @@
 
 // ======= SET THESE
 var year = 2025;
-var id = "05";
+var id = "06";
 
 // ======= DON'T CHANGE BELOW THIS LINE
 
@@ -15,7 +15,10 @@ var years = new Dictionary<int, AdventYear>
 var y = years[year];
 var solution = y.GetSolution(id);
 var separator = y.IsOneLine(id) ? ',' : '\n';
-var lines = y.GetFileContents(id).Split(separator).Select(l => l.Trim()).ToList();
+var shouldTrim = y.ShouldTrimLines(id);
+
+var lines = y.GetFileContents(id).Split(separator).ToList();
+if (shouldTrim) lines = lines.Select(l => l.Trim()).ToList();
 
 Console.WriteLine("=== part one ===");
 solution.Run(lines);
