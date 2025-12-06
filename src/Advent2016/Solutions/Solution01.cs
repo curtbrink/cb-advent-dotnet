@@ -3,7 +3,7 @@ using AdventBase.Utils;
 
 namespace Advent2016.Solutions;
 
-public class Solution01 : Solution
+public class Solution01() : Solution("2016-01.txt", fileParseOption: SolutionParseOption.SingleLine)
 {
     public int TotalDistance => Math.Abs(_x) + Math.Abs(_y);
 

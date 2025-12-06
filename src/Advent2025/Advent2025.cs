@@ -15,18 +15,4 @@ public class Advent2025 : AdventYear<Advent2025>
         "06" => new Solution06(),
         _ => throw new Exception($"Solution not found for day \"{id}\""),
     };
-
-    public override bool IsOneLine(string id) => id switch
-    {
-        "02" => true,
-        _ => false,
-    };
-
-    public override bool ShouldTrimLines(string id) => id switch
-    {
-        "06" => false,
-        _ => true,
-    };
-
-    public override string GetFileContents(string id) => File.ReadAllText($"Inputs/{id}.txt");
 }

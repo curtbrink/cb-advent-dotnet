@@ -2,7 +2,7 @@ using AdventBase;
 
 namespace Advent2025.Solutions;
 
-public class Solution01 : Solution
+public class Solution01() : Solution("2025-01.txt")
 {
     public long Dial { get; private set; } = 50L;
     public long ZeroCount { get; private set; } = 0L;

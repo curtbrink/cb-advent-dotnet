@@ -2,7 +2,7 @@ using AdventBase;
 
 namespace Advent2025.Solutions;
 
-public class Solution03 : Solution
+public class Solution03() : Solution("2025-03.txt")
 {
     public long MaxJoltage { get; private set; } = 0;
     

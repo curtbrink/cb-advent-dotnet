@@ -2,7 +2,7 @@ using AdventBase;
 
 namespace Advent2025.Solutions;
 
-public class Solution02 : Solution
+public class Solution02() : Solution("2025-02.txt", fileParseOption: SolutionParseOption.SingleLine)
 {
     public long InvalidIdSum { get; private set; } = 0L;
 

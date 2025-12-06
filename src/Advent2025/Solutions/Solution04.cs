@@ -3,7 +3,7 @@ using AdventBase.Utils;
 
 namespace Advent2025.Solutions;
 
-public class Solution04 : Solution
+public class Solution04() : Solution("2025-04.txt")
 {
     public long PaperRolls { get; private set; } = 0;
     

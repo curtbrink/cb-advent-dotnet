@@ -4,7 +4,7 @@ using AdventBase.Utils;
 
 namespace Advent2025.Solutions;
 
-public partial class Solution06 : Solution
+public partial class Solution06() : Solution("2025-06.txt", fileParseOption: SolutionParseOption.MultiLineNoTrim)
 {
     public long Sum { get; private set; } = 0L;
     
