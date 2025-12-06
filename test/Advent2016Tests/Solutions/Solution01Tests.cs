@@ -18,4 +18,15 @@ public class Solution01Tests : AdventSolutionTests<Solution01>
         
         Assert.Equal(expected, solution.TotalDistance);
     }
+
+    [Fact]
+    public void TestP2Example()
+    {
+        List<string> lines = "R8, R4, R4, R8".Split(',').Select(l => l.Trim()).ToList();
+        var solution = GetSut();
+
+        solution.Run(lines, true);
+
+        Assert.Equal(4, solution.TotalDistance);
+    }
 }

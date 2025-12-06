@@ -5,13 +5,22 @@ public enum Direction
     North,
     South,
     East,
-    West,
+    West
 }
 
 public static class DirectionExtensions
 {
     extension(Direction direction)
     {
+        public static Direction From(char s) => s switch
+        {
+            'U' or 'N' => Direction.North,
+            'D' or 'S' => Direction.South,
+            'L' or 'W' => Direction.West,
+            'R' or 'E' => Direction.East,
+            _ => throw new ArgumentOutOfRangeException(nameof(s), "Invalid direction"),
+        };
+        
         public Direction TurnRight() => direction switch
         {
             Direction.North => Direction.East,
@@ -46,5 +55,14 @@ public static class DirectionExtensions
         public bool IsPositiveOnAxis() => direction is Direction.East or Direction.South;
         
         public bool IsNegativeOnAxis() => direction is Direction.North or Direction.West;
+
+        public (int x, int y) Vector() => direction switch
+        {
+            Direction.North => (0, -1),
+            Direction.East => (1, 0),
+            Direction.West => (-1, 0),
+            Direction.South => (0, 1),
+            _ => throw new ArgumentOutOfRangeException(nameof(direction), "Invalid direction"),
+        };
     }
 }
