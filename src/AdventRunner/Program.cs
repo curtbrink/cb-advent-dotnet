@@ -1,13 +1,14 @@
 ﻿using AdventBase;
 
 // ======= SET THESE
-var year = 2016;
-var id = "02";
+var year = 2015;
+var id = "01";
 
 // ======= DON'T CHANGE BELOW THIS LINE
 
 var years = new Dictionary<int, AdventYear>
 {
+    [2015] = new Advent2015.Advent2015(),
     [2016] = new Advent2016.Advent2016(),
     [2025] = new Advent2025.Advent2025(),
 };
