@@ -1,8 +1,8 @@
 ﻿using AdventBase;
 
 // ======= SET THESE
-var year = 2016;
-var id = "02";
+var year = 2025;
+var id = "07";
 
 // ======= DON'T CHANGE BELOW THIS LINE
 
@@ -37,14 +37,17 @@ var parsePipeline = (string filename) => File.ReadAllText(filename).Split(separa
 // grab file contents
 var filepathP1 = $"Inputs/{solution.FilenameP1}";
 var linesP1 = parsePipeline(filepathP1);
-var filepathP2 = $"Inputs/{solution.FilenameP2}";
-var linesP2 = parsePipeline(filepathP2);
 
-// run part one
-Console.WriteLine("=== part one ===");
+Console.WriteLine($"=== part one ===");
 solution.Run(linesP1);
 
-// reset and run part two
-solution.Reset();
-Console.WriteLine("=== part two ===");
-solution.Run(linesP2, true);
+if (!solution.SinglePart)
+{
+    // reset and run part two
+    var filepathP2 = $"Inputs/{solution.FilenameP2}";
+    var linesP2 = parsePipeline(filepathP2);
+    
+    solution.Reset();
+    Console.WriteLine("=== part two ===");
+    solution.Run(linesP2, true);
+}
