@@ -1,4 +1,5 @@
 using AdventBase;
+using AdventBase.Utils;
 
 namespace Advent2025.Solutions;
 
@@ -21,15 +22,15 @@ public class Solution08() : Solution("2025-08.txt")
             into coords
             select new JunctionBox(coords[0], coords[1], coords[2])).ToList();
 
-        var distanceQueue = new PriorityQueue<BidirTuple<JunctionBox>, double>();
-        var pairsAdded = new HashSet<BidirTuple<JunctionBox>>(); // only want (a,b) and not (b,a).
+        var distanceQueue = new PriorityQueue<BidirectionalTuple<JunctionBox>, double>();
+        var pairsAdded = new HashSet<BidirectionalTuple<JunctionBox>>(); // only want (a,b) and not (b,a).
 
         foreach (var node in allNodes)
         {
             foreach (var node2 in allNodes.Where(n => n != node))
             {
                 // first check if pair is already calculated
-                var tuple = new BidirTuple<JunctionBox>(node, node2);
+                var tuple = new BidirectionalTuple<JunctionBox>(node, node2);
                 if (!pairsAdded.Add(tuple)) continue;
                 
                 // if not, find its distance and enqueue
@@ -131,24 +132,10 @@ public class Solution08() : Solution("2025-08.txt")
         public double Distance(JunctionBox other) =>
             Math.Sqrt(Math.Pow(X - other.X, 2) + Math.Pow(Y - other.Y, 2) + Math.Pow(Z - other.Z, 2));
 
-        public override string ToString() => $"{{{X},{Y},{Z}}}]";
-    }
-
-    private record BidirTuple<T>(T A, T B) where T : IEquatable<T>
-    {
-        // ensure bidirectionality in Equals and HashCode
-        public virtual bool Equals(BidirTuple<T>? other)
-        {
-            if (other is null) return false;
-            return (A.Equals(other.A) && B.Equals(other.B)) || (B.Equals(other.A) && A.Equals(other.B));
-        }
-        
-        public override int GetHashCode() => 16269053 * A.GetHashCode() + 16269053 * B.GetHashCode();
-
-        public override string ToString() => $"[ {A} {B} ]";
+        public override string ToString() => $"{{{X},{Y},{Z}}}";
     }
     
-    private class Circuit(BidirTuple<JunctionBox> pair)
+    private class Circuit(BidirectionalTuple<JunctionBox> pair)
     {
         public Guid Id { get; } = Guid.NewGuid();
         public List<JunctionBox> Nodes { get; } = [pair.A, pair.B];
