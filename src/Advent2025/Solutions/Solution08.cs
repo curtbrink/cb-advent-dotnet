@@ -9,11 +9,11 @@ public class Solution08() : Solution("2025-08.txt")
     public override void Run(List<string> inputLines, bool partTwo = false, bool debug = false)
     {
         // find distance between every pair: (1,000 * 999) / 2 (bidirectional link) = 499500 pairs. not too bad.
-        // order by distance via a max heap priority queue. pick the top n pairs to connect.
+        // order by distance via a min heap priority queue on distance. pick the top n pairs to connect.
         // -> part one: n = 1000
         // -> part two: keep going until entire graph is connected
         // when connecting a pair, merge the circuit lists.
-        // -> part one, find largest 3 circuit lists.
+        // -> part one, find largest 3 circuits.
         // -> part two, find the pair that causes the last circuit to contain all nodes.
 
         // ooh linq look at you go!
