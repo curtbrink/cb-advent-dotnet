@@ -1,5 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
 using AdventBase;
 
 namespace Advent2025.Solutions;
@@ -133,44 +131,26 @@ public class Solution08() : Solution("2025-08.txt")
         public double Distance(JunctionBox other) =>
             Math.Sqrt(Math.Pow(X - other.X, 2) + Math.Pow(Y - other.Y, 2) + Math.Pow(Z - other.Z, 2));
 
-        public override string ToString() => $"[{X},{Y},{Z}]";
+        public override string ToString() => $"{{{X},{Y},{Z}}}]";
     }
 
+    private record BidirTuple<T>(T A, T B) where T : IEquatable<T>
+    {
+        // ensure bidirectionality in Equals and HashCode
+        public virtual bool Equals(BidirTuple<T>? other)
+        {
+            if (other is null) return false;
+            return (A.Equals(other.A) && B.Equals(other.B)) || (B.Equals(other.A) && A.Equals(other.B));
+        }
+        
+        public override int GetHashCode() => 16269053 * A.GetHashCode() + 16269053 * B.GetHashCode();
+
+        public override string ToString() => $"[ {A} {B} ]";
+    }
+    
     private class Circuit(BidirTuple<JunctionBox> pair)
     {
         public Guid Id { get; } = Guid.NewGuid();
         public List<JunctionBox> Nodes { get; } = [pair.A, pair.B];
-    }
-
-    private struct BidirTuple<T>(T a, T b) : ITuple, IEquatable<BidirTuple<T>>
-    {
-        public T A => a;
-        public T B => b;
-        private ValueTuple<T, T> _tuple = ValueTuple.Create(a, b);
-        private readonly ValueTuple<T, T> _inverseTuple = ValueTuple.Create(b, a);
-
-        public override bool Equals([NotNullWhen(true)] object? obj)
-        {
-            return obj is BidirTuple<T> tuple && Equals(tuple);
-        }
-
-        // ensure bidirectionality here
-        public override int GetHashCode() => 16269053 * _tuple.GetHashCode() + 16269053 * _inverseTuple.GetHashCode();
-
-        public static bool operator ==(BidirTuple<T> left, BidirTuple<T> right) => left.Equals(right);
-
-        public static bool operator !=(BidirTuple<T> left, BidirTuple<T> right) => !left.Equals(right);
-
-        public bool Equals(BidirTuple<T> other)
-        {
-            var ec = EqualityComparer<ValueTuple<T, T>>.Default;
-            return ec.Equals(_tuple, other._tuple) || ec.Equals(_inverseTuple, other._tuple);
-        }
-
-        public override string ToString() => $"{{ {a} {b} }}";
-
-        public object? this[int index] => index == 0 ? a : b;
-
-        public int Length => 2;
     }
 }
