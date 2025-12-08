@@ -2,15 +2,13 @@ using AdventBase;
 
 namespace Advent2015.Solutions;
 
-public class Solution01() : Solution("2015-01.txt", fileParseOption: SolutionParseOption.SingleLine)
+public class Solution01() : Solution("2015-01.txt", singlePart: true, fileParseOption: SolutionParseOption.SingleLine)
 {
     public int Floor { get; private set; } = 0;
     public int BasementFoundAtIndex { get; private set; } = -1;
 
     public override void Run(List<string> inputLines, bool partTwo = false, bool debug = false)
     {
-        if (partTwo) return; // simultaneous
-
         // really, there should only be one line
         foreach (var line in inputLines)
         {

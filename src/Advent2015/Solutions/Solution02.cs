@@ -2,15 +2,13 @@ using AdventBase;
 
 namespace Advent2015.Solutions;
 
-public class Solution02() : Solution("2015-02.txt")
+public class Solution02() : Solution("2015-02.txt", singlePart: true)
 {
     public long Paper { get; private set; } = 0L;
     public long Ribbon { get; private set; } = 0L;
 
     public override void Run(List<string> inputLines, bool partTwo = false, bool debug = false)
     {
-        if (partTwo) return; // simultaneous
-
         foreach (var parts in inputLines.Where(l => !string.IsNullOrEmpty(l))
                      .Select(line => line.Split('x').Select(int.Parse).ToList()))
         {
