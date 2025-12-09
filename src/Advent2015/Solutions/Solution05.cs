@@ -47,6 +47,7 @@ public static class Solution05StringExtensions
     }
 }
 
+// 85 lines of typescript vs 48 lines of linq-flavored C#... not bad
 
 /* These AoC 2015 solutions are converted from my original TypeScript implementations
 
