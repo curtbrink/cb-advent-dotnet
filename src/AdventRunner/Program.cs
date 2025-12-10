@@ -2,8 +2,8 @@
 
 // ======= SET THESE
 var year = 2025;
-var id = "08";
-var debug = false;
+var id = "09";
+var debug = true;
 
 // ======= DON'T CHANGE BELOW THIS LINE
 

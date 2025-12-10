@@ -15,6 +15,7 @@ public class Advent2025 : AdventYear<Advent2025>
         "06" => new Solution06(),
         "07" => new Solution07(),
         "08" => new Solution08(),
+        "09" => new Solution09(),
         _ => throw new Exception($"Solution not found for day \"{id}\""),
     };
 }
