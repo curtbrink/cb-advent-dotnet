@@ -40,9 +40,9 @@ public class Solution10() : Solution("2025-10.txt")
         MinimumPresses = 0;
     }
 
-    private record Machine(uint GoalLights, uint[] Buttons, uint[] Joltages);
+    public record Machine(uint GoalLights, uint[] Buttons, uint[] Joltages);
 
-    private Machine Parse(string input)
+    public static Machine Parse(string input)
     {
         var split = input.Split(' ');
 
@@ -253,7 +253,7 @@ public class Solution10() : Solution("2025-10.txt")
         return currentMinimum;
     }
 
-    private record Button
+    public record Button
     {
         public uint Mask { get; init; }
 
