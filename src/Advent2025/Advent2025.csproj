@@ -16,4 +16,14 @@
       </None>
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Microsoft.Z3" Version="4.15.4" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="Microsoft.Z3">
+        <HintPath>..\..\lib\Microsoft.Z3.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
 </Project>

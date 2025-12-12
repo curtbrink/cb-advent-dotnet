@@ -4,6 +4,8 @@
 # puzzle inputs!
 /src/**/Inputs/
 
+lib/
+
 # User-specific files
 *.suo
 *.user

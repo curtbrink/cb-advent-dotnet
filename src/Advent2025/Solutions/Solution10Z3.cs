@@ -5,19 +5,23 @@ namespace Advent2025.Solutions;
 
 public class Solution10Z3() : Solution("2025-10.txt")
 {
+    // note: for this to run/build you need Microsoft.Z3.dll in <solution root>/lib directory.
     public override void Run(List<string> inputLines, bool partTwo = false, bool debug = false)
     {
         if (!partTwo) return;
 
         var machines = inputLines.Where(l => !string.IsNullOrEmpty(l)).Select(Solution10.Parse).ToList();
 
+        var pressTotal = 0;
         foreach (var machine in machines)
         {
-            DoZ3Solve(machine);
+            pressTotal += DoZ3Solve(machine, debug);
         }
+
+        Console.WriteLine($"Total presses for all machines: {pressTotal}");
     }
 
-    private void DoZ3Solve(Solution10.Machine m)
+    private int DoZ3Solve(Solution10.Machine m, bool debug = false)
     {
         using var context = new Context();
         var optimize = context.MkOptimize();
@@ -63,12 +67,27 @@ public class Solution10Z3() : Solution("2025-10.txt")
 
         if (optimize.Check() == Status.SATISFIABLE)
         {
-            Console.WriteLine("Found solution");
+            if (debug) Console.WriteLine("Found solution");
+            
+            var model = optimize.Model;
+
+            var total = 0;
+
+            for (var i = 0; i < m.Buttons.Length; i++)
+            {
+                var v = ((IntNum)model.Evaluate(ie[i])).Int;
+                total += v;
+                if (debug) Console.WriteLine($"Button {i}: {v}");
+            }
+
+            if (debug) Console.WriteLine($"Total presses: {total}");
+
+            return total;
         }
-        else
-        {
-            Console.WriteLine("You fucked");
-        }
+
+        Console.WriteLine("No solution found :(");
+
+        throw new Exception("No solution found");
     }
 
     public override void Reset()
