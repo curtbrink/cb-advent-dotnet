@@ -1,8 +1,9 @@
 ﻿using AdventBase;
 
 // ======= SET THESE
-var year = 2015;
-var id = "05";
+var year = 2025;
+var id = "11";
+var debug = true;
 
 // ======= DON'T CHANGE BELOW THIS LINE
 
@@ -40,7 +41,7 @@ var filepathP1 = $"Inputs/{solution.FilenameP1}";
 var linesP1 = parsePipeline(filepathP1);
 
 Console.WriteLine($"=== part one ===");
-solution.Run(linesP1);
+solution.Run(linesP1, debug: debug);
 
 if (!solution.SinglePart)
 {
@@ -50,5 +51,5 @@ if (!solution.SinglePart)
     
     solution.Reset();
     Console.WriteLine("=== part two ===");
-    solution.Run(linesP2, true);
+    solution.Run(linesP2, true, debug);
 }
