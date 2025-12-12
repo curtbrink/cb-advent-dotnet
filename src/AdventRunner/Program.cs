@@ -1,8 +1,8 @@
 ﻿using AdventBase;
 
 // ======= SET THESE
-var year = 2025;
-var id = "11";
+var year = 2015;
+var id = "06";
 var debug = true;
 
 // ======= DON'T CHANGE BELOW THIS LINE

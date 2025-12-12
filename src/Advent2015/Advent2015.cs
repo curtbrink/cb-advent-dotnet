@@ -12,6 +12,7 @@ public class Advent2015 : AdventYear<Advent2015>
         "03" => new Solution03(),
         "04" => new Solution04(),
         "05" => new Solution05(),
+        "06" => new Solution06(),
         _ => throw new NotImplementedException(),
     };
 }
