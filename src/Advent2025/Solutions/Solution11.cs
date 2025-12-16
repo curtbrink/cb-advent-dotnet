@@ -1,8 +1,9 @@
 using AdventBase;
+using Microsoft.Extensions.Logging;
 
 namespace Advent2025.Solutions;
 
-public class Solution11() : Solution("2025-11.txt")
+public class Solution11(ILogger<Solution11> logger) : Solution(2025, "11", "2025-11.txt")
 {
     public long NumberOfPaths { get; private set; } = 0L;
     public long NumberOfDacFftPaths { get; private set; } = 0L;
@@ -76,7 +77,7 @@ public class Solution11() : Solution("2025-11.txt")
         }
 
         NumberOfPaths = numberOfOutPaths;
-        Console.WriteLine($"Total of {NumberOfPaths} paths from you -> out");
+        logger.LogInformation("Total of {NumberOfPaths} paths from you -> out", NumberOfPaths);
     }
 
     private void PartTwo(Device start, Device dac, Device fft, string end)
@@ -90,15 +91,15 @@ public class Solution11() : Solution("2025-11.txt")
         // there are 2 * 4 * 8 = 64 total paths from svr->out that pass through fft and dac.
 
         var dacOutPaths = FindPaths(dac, end);
-        Console.WriteLine($"There are {dacOutPaths} paths from dac->out");
+        logger.LogInformation("There are {DacOutPaths} paths from dac->out", dacOutPaths);
         var fftDacPaths = FindPaths(fft, "dac");
-        Console.WriteLine($"There are {fftDacPaths} paths from fft->dac");
+        logger.LogInformation("There are {FftDacPaths} paths from fft->dac", fftDacPaths);
         var startFftPaths = FindPaths(start, "fft");
-        Console.WriteLine($"There are {startFftPaths} paths from svr->fft");
+        logger.LogInformation("There are {StartFftPaths} paths from svr->fft", startFftPaths);
 
         NumberOfDacFftPaths = dacOutPaths * fftDacPaths * startFftPaths;
 
-        Console.WriteLine($"For a total of {NumberOfDacFftPaths} paths!");
+        logger.LogInformation("For a total of {NumberOfDacFftPaths} paths!", NumberOfDacFftPaths);
     }
 
     private long FindPaths(Device start, string endId)

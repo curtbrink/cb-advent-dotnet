@@ -1,4 +1,6 @@
 ﻿using AdventBase;
+using AdventRunner;
+using Microsoft.Extensions.DependencyInjection;
 
 // ======= SET THESE
 var year = 2025;
@@ -7,15 +9,18 @@ var debug = true;
 
 // ======= DON'T CHANGE BELOW THIS LINE
 
-var years = new Dictionary<int, AdventYear>
-{
-    [2016] = new Advent2016.Advent2016(),
-    [2025] = new Advent2025.Advent2025(),
-};
+// var years = new Dictionary<int, AdventYear>
+// {
+//     [2016] = new Advent2016.Advent2016(),
+//     [2025] = new Advent2025.Advent2025(),
+// };
+
+var serviceCollection = new ServiceCollection();
+serviceCollection.AddAdventYears();
+var sp = serviceCollection.BuildServiceProvider();
 
 // look up solution
-var y = years[year];
-var solution = y.GetSolution(id);
+var solution = sp.GetRequiredService<AdventRegistry>().Years[year].Solutions[id];
 
 // configure input parsing
 var separator = solution.ParseOption switch

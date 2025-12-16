@@ -3,7 +3,7 @@ using AdventBase.Utils;
 
 namespace Advent2025.Solutions;
 
-public class Solution08() : Solution("2025-08.txt")
+public class Solution08() : Solution(2025, "08", "2025-08.txt")
 {
     public override void Run(List<string> inputLines, bool partTwo = false, bool debug = false)
     {

@@ -3,7 +3,7 @@ using AdventBase;
 
 namespace Advent2025.Solutions;
 
-public class Solution10() : Solution("2025-10.txt")
+public class Solution10() : Solution(2025, "10a", "2025-10.txt")
 {
     public int MinimumPresses { get; private set; } = 0;
 

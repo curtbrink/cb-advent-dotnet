@@ -2,7 +2,7 @@ using AdventBase;
 
 namespace Advent2025.Solutions;
 
-public class Solution05() : Solution("2025-05.txt")
+public class Solution05() : Solution(2025, "05", "2025-05.txt")
 {
     public int NumberOfFresh { get; private set; }
     

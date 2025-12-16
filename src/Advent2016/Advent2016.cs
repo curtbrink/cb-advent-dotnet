@@ -3,7 +3,7 @@ using AdventBase;
 
 namespace Advent2016;
 
-public class Advent2016 : AdventYear<Advent2016>
+public class Advent2016 : AdventYear
 {
     public override Solution GetSolution(string id) => id switch
     {

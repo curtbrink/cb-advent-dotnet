@@ -3,7 +3,7 @@ using AdventBase.Utils;
 
 namespace Advent2025.Solutions;
 
-public class Solution09() : Solution("2025-09.txt", singlePart: true)
+public class Solution09() : Solution(2025, "09", "2025-09.txt", singlePart: true)
 {
     public long LargestArea { get; private set; } = 0L;
     public long LargestValidArea { get; private set; } = 0L;

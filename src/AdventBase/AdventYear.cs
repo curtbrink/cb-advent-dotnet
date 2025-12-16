@@ -2,7 +2,14 @@ namespace AdventBase;
 
 public abstract class AdventYear
 {
-    public abstract Solution GetSolution(string id);
-}
+    public abstract int Year { get; }
+    
+    public IDictionary<string, Solution> Solutions { get; }
+    
+    protected AdventYear(IEnumerable<Solution> solutions)
+    {
+        Solutions = solutions.Where(s => s.Year == Year).ToDictionary(s => s.Id);
+    }
 
-public abstract class AdventYear<T> : AdventYear where T : AdventYear<T>;
+    public Solution GetSolution(string id) => Solutions[id];
+}

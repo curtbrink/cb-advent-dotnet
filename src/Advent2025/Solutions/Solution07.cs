@@ -3,7 +3,7 @@ using AdventBase;
 namespace Advent2025.Solutions;
 
 public class Solution07()
-    : Solution("2025-07.txt", singlePart: true, fileParseOption: SolutionParseOption.MultiLineNoTrim)
+    : Solution(2025, "07", "2025-07.txt", singlePart: true, fileParseOption: SolutionParseOption.MultiLineNoTrim)
 {
     public int TotalSplits { get; private set; } = 0;
     public int TotalBeams => _currentBeams.Count;

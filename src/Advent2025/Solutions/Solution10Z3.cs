@@ -3,7 +3,7 @@ using Microsoft.Z3;
 
 namespace Advent2025.Solutions;
 
-public class Solution10Z3() : Solution("2025-10.txt")
+public class Solution10Z3() : Solution(2025, "10b", "2025-10.txt")
 {
     // note: for this to run/build you need Microsoft.Z3.dll in <solution root>/lib directory.
     public override void Run(List<string> inputLines, bool partTwo = false, bool debug = false)
