@@ -1,6 +1,7 @@
 ﻿using AdventBase;
 using AdventRunner;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 // ======= SET THESE
 var year = 2025;
@@ -16,8 +17,9 @@ var debug = true;
 // };
 
 var serviceCollection = new ServiceCollection();
-serviceCollection.AddAdventYears();
+serviceCollection.AddAdventYears(debug);
 var sp = serviceCollection.BuildServiceProvider();
+var logger = sp.GetRequiredService<ILogger<Program>>();
 
 // look up solution
 var solution = sp.GetRequiredService<AdventRegistry>().Years[year].Solutions[id];
@@ -44,8 +46,8 @@ var parsePipeline = (string filename) => File.ReadAllText(filename).Split(separa
 var filepathP1 = $"Inputs/{solution.FilenameP1}";
 var linesP1 = parsePipeline(filepathP1);
 
-Console.WriteLine($"=== part one ===");
-solution.Run(linesP1, debug: debug);
+logger.LogInformation("=== part one ===");
+solution.Run(linesP1);
 
 if (!solution.SinglePart)
 {
@@ -54,6 +56,6 @@ if (!solution.SinglePart)
     var linesP2 = parsePipeline(filepathP2);
     
     solution.Reset();
-    Console.WriteLine("=== part two ===");
-    solution.Run(linesP2, true, debug);
+    logger.LogInformation("=== part two ===");
+    solution.Run(linesP2, true);
 }

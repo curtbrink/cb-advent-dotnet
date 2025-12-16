@@ -9,6 +9,6 @@ public abstract class Solution(int year, string id, string filename, string? fil
     public string FilenameP2 { get; } = filenamePartTwo ?? filename;
     public bool SinglePart { get; } = singlePart;
     
-    public abstract void Run(List<string> inputLines, bool partTwo = false, bool debug = false);
+    public abstract void Run(List<string> inputLines, bool partTwo = false);
     public abstract void Reset();
 }

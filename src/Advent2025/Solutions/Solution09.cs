@@ -1,14 +1,15 @@
 using AdventBase;
 using AdventBase.Utils;
+using Microsoft.Extensions.Logging;
 
 namespace Advent2025.Solutions;
 
-public class Solution09() : Solution(2025, "09", "2025-09.txt", singlePart: true)
+public class Solution09(ILogger<Solution09> logger) : Solution(2025, "09", "2025-09.txt", singlePart: true)
 {
     public long LargestArea { get; private set; } = 0L;
     public long LargestValidArea { get; private set; } = 0L;
     
-    public override void Run(List<string> inputLines, bool partTwo = false, bool debug = false)
+    public override void Run(List<string> inputLines, bool partTwo = false)
     {
         var allTiles = (from line in inputLines
             where !string.IsNullOrEmpty(line)
@@ -44,7 +45,7 @@ public class Solution09() : Solution(2025, "09", "2025-09.txt", singlePart: true
         // now just get the largest rectangle for p1
         var largest = areaQueue.Peek();
         LargestArea = largest.Area;
-        Console.WriteLine($"(part one) The largest area possible is {LargestArea}");
+        logger.LogInformation("(part one) The largest area possible is {LargestArea}", LargestArea);
         
         // part two - make sure they're valid
 
@@ -60,7 +61,7 @@ public class Solution09() : Solution(2025, "09", "2025-09.txt", singlePart: true
         }
 
         LargestValidArea = largestValid!.Area;
-        Console.WriteLine($"(part two) Largest valid rectangle is {largestValid.Area}");
+        logger.LogDebug("(part two) Largest valid rectangle is {Area}", largestValid.Area);
     }
 
     public override void Reset()

@@ -1,14 +1,15 @@
 using AdventBase;
+using Microsoft.Extensions.Logging;
 
 namespace Advent2025.Solutions;
 
-public class Solution02() : Solution(2025, "02", "2025-02.txt", fileParseOption: SolutionParseOption.SingleLine)
+public class Solution02(ILogger<Solution02> logger) : Solution(2025, "02", "2025-02.txt", fileParseOption: SolutionParseOption.SingleLine)
 {
     public long InvalidIdSum { get; private set; } = 0L;
 
     private readonly Dictionary<int, List<int>> _factors = GetFactors();
 
-    public override void Run(List<string> inputLines, bool partTwo = false, bool debug = false)
+    public override void Run(List<string> inputLines, bool partTwo = false)
     {
         // line = 123456-198543
         foreach (var line in inputLines)
@@ -19,45 +20,45 @@ public class Solution02() : Solution(2025, "02", "2025-02.txt", fileParseOption:
 
             for (var i = min; i <= max; i++)
             {
-                if (debug) Console.WriteLine($"Checking {i}");
+                logger.LogDebug("Checking {i}", i);
                 var idString = i.ToString();
 
-                var isInvalid = partTwo ? IsInvalidPartTwo(idString, debug) : IsInvalidPartOne(idString, debug);
+                var isInvalid = partTwo ? IsInvalidPartTwo(idString) : IsInvalidPartOne(idString);
 
                 if (isInvalid)
                 {
-                    Console.WriteLine($"Found invalid product id: {idString}");
+                    logger.LogInformation("Found invalid product id: {idString}", idString);
                     InvalidIdSum += i;
                 }
             }
         }
 
-        Console.WriteLine($"Sum of invalid ids is: {InvalidIdSum}");
+        logger.LogInformation("Sum of invalid ids is: {InvalidIdSum}", InvalidIdSum);
     }
 
-    private bool IsInvalidPartTwo(string id, bool debug = false)
+    private bool IsInvalidPartTwo(string id)
     {
         var factorsForId = _factors[id.Length];
-        return IsInvalid(id, factorsForId, debug);
+        return IsInvalid(id, factorsForId);
     }
 
-    private static bool IsInvalidPartOne(string id, bool debug = false)
+    private bool IsInvalidPartOne(string id)
     {
         if (id.Length % 2 != 0) return false;
-        return IsInvalid(id, [id.Length / 2], debug);
+        return IsInvalid(id, [id.Length / 2]);
     }
 
-    private static bool IsInvalid(string id, List<int> validSubstringLengths, bool debug = false)
+    private bool IsInvalid(string id, List<int> validSubstringLengths)
     {
         // check smallest to largest
         List<int> lengths = [..validSubstringLengths];
         lengths.Sort((a, b) => -(a - b));
 
-        if (debug) Console.WriteLine($"{id} => lengths to check [{string.Join(",", lengths)}]");
+        logger.LogDebug("{id} => lengths to check [{lengths}]", id, string.Join(",", lengths));
 
         foreach (var length in lengths)
         {
-            if (debug) Console.WriteLine($"Checking {id} sub length=${length}");
+            logger.LogDebug("Checking {id} sub length=${length}", id, length);
             List<string> split = [];
             var startIdx = 0;
             var nextIdx = startIdx + length;
@@ -65,14 +66,14 @@ public class Solution02() : Solution(2025, "02", "2025-02.txt", fileParseOption:
             while (nextIdx < id.Length)
             {
                 var chunk = id[startIdx..nextIdx];
-                if (debug) Console.WriteLine($"Added chunk {chunk}");
+                logger.LogDebug("Added chunk {chunk}", chunk);
                 split.Add(id[startIdx..nextIdx]);
                 startIdx += length;
                 nextIdx += length;
             }
 
             split.Add(id[startIdx..]);
-            if (debug) Console.WriteLine($"Added chunk {id[startIdx..]}");
+            logger.LogDebug("Added chunk {chunk}", id[startIdx..]);
 
             if (new HashSet<string>(split).Count == 1) return true;
         }

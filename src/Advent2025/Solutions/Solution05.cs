@@ -1,8 +1,9 @@
 using AdventBase;
+using Microsoft.Extensions.Logging;
 
 namespace Advent2025.Solutions;
 
-public class Solution05() : Solution(2025, "05", "2025-05.txt")
+public class Solution05(ILogger<Solution05> logger) : Solution(2025, "05", "2025-05.txt")
 {
     public int NumberOfFresh { get; private set; }
     
@@ -11,7 +12,7 @@ public class Solution05() : Solution(2025, "05", "2025-05.txt")
     // keep this for part two
     private List<FreshRange> _freshRanges = [];
     
-    public override void Run(List<string> inputLines, bool partTwo = false, bool debug = false)
+    public override void Run(List<string> inputLines, bool partTwo = false)
     {
         if (partTwo) PartTwo(inputLines);
         else PartOne(inputLines);
@@ -34,7 +35,7 @@ public class Solution05() : Solution(2025, "05", "2025-05.txt")
             {
                 // line is "12345-67890"
                 var split = line.Split('-');
-                var range = new FreshRange(split[0], split[1]);
+                var range = new FreshRange(split[0], split[1], logger);
                 _freshRanges.Add(range);
             }
             else
@@ -44,7 +45,7 @@ public class Solution05() : Solution(2025, "05", "2025-05.txt")
         }
 
         NumberOfFresh = idsToCheck.Count(id => _freshRanges.Any(range => range.IsFresh(id)));
-        Console.WriteLine($"There are {NumberOfFresh} fresh ingredient ids!");
+        logger.LogInformation("There are {NumberOfFresh} fresh ingredient ids!", NumberOfFresh);
     }
 
     private void PartTwo(List<string> inputLines)
@@ -61,7 +62,7 @@ public class Solution05() : Solution(2025, "05", "2025-05.txt")
             // line is "12345-67890"
             var split = line.Split('-');
 
-            _freshRanges.Add(new FreshRange(split[0], split[1]));
+            _freshRanges.Add(new FreshRange(split[0], split[1], logger));
         }
 
         var wasReduced = true;
@@ -71,7 +72,7 @@ public class Solution05() : Solution(2025, "05", "2025-05.txt")
         }
         
         TotalPossibleFresh = _freshRanges.Sum(range => range.TotalPossible());
-        Console.WriteLine($"There are {TotalPossibleFresh} possible fresh ingredient ids!");
+        logger.LogInformation("There are {TotalPossibleFresh} possible fresh ingredient ids!", TotalPossibleFresh);
     }
 
     private bool ReduceRanges()
@@ -126,7 +127,7 @@ public class Solution05() : Solution(2025, "05", "2025-05.txt")
     }
 }
 
-public class FreshRange(string start, string end)
+public class FreshRange(string start, string end, ILogger<Solution05> logger)
 {
     public readonly long Start = long.Parse(start);
     public readonly long End = long.Parse(end);
@@ -137,19 +138,14 @@ public class FreshRange(string start, string end)
         return i >= Start && i <= End;
     }
 
-    public long TotalPossible()
-    {
-        var diff = End - Start + 1;
-        Console.WriteLine($"{diff}");
-        return diff;
-    }
+    public long TotalPossible() => End - Start + 1;
 
     public FreshRange Extend(string start, string end)
     {
-        Console.WriteLine($"Extended! before: {Start} - {End}");
+        logger.LogDebug("Extended! before: {Start} - {End}", Start, End);
         var newStart = Math.Min(Start, long.Parse(start));
         var newEnd = Math.Max(End, long.Parse(end));
-        Console.WriteLine($"          after:  {newStart} - {newEnd}");
-        return new FreshRange(newStart.ToString(), newEnd.ToString());
+        logger.LogDebug("after: {Start} - {End}", newStart, newEnd);
+        return new FreshRange(newStart.ToString(), newEnd.ToString(), logger);
     }
 }

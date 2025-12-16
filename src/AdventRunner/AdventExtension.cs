@@ -6,23 +6,27 @@ namespace AdventRunner;
 
 public static class AdventExtension
 {
-    public static IServiceCollection AddAdventYears(this IServiceCollection serviceCollection)
+    public static IServiceCollection AddAdventYears(this IServiceCollection serviceCollection, bool debug)
     {
         serviceCollection.AddSingleton<AdventRegistry>();
         
         serviceCollection.AddAdvent2025();
         
-        serviceCollection.AddAdventLogging();
+        serviceCollection.AddAdventLogging(debug);
         
         return serviceCollection;
     }
 
-    public static IServiceCollection AddAdventLogging(this IServiceCollection serviceCollection)
+    public static IServiceCollection AddAdventLogging(this IServiceCollection serviceCollection, bool debug)
     {
         serviceCollection.AddLogging(lb =>
         {
-            lb.SetMinimumLevel(LogLevel.Debug);
-            lb.AddSimpleConsole();
+            lb.SetMinimumLevel(debug ? LogLevel.Debug : LogLevel.Information);
+            lb.AddSimpleConsole(f =>
+            {
+                f.SingleLine = true;
+                f.IncludeScopes = false;
+            });
         });
         return serviceCollection;
     }

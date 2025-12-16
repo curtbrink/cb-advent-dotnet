@@ -1,8 +1,9 @@
 using AdventBase;
+using Microsoft.Extensions.Logging;
 
 namespace Advent2025.Solutions;
 
-public class Solution01() : Solution(2025, "01", "2025-01.txt")
+public class Solution01(ILogger<Solution01> logger) : Solution(2025, "01", "2025-01.txt")
 {
     public long Dial { get; private set; } = 50L;
     public long ZeroCount { get; private set; } = 0L;
@@ -17,7 +18,7 @@ public class Solution01() : Solution(2025, "01", "2025-01.txt")
         LastEndedOnZero = false;
     }
 
-    public override void Run(List<string> inputLines, bool partTwo = false, bool debug = false)
+    public override void Run(List<string> inputLines, bool partTwo = false)
     {
         foreach (var line in inputLines)
         {
@@ -69,18 +70,15 @@ public class Solution01() : Solution(2025, "01", "2025-01.txt")
                 }
             }
 
-            if (debug && lastZeroCount != ZeroCount) Debug(toMove, newHundred);
+            if (lastZeroCount != ZeroCount)
+                logger.LogDebug(
+                    "[debug] moved={toMove} newD={Dial} lastH={LastHundred} newH={newHundred} zeroCount={ZeroCount}",
+                    toMove, Dial, LastHundred, newHundred, ZeroCount);
 
             LastHundred = newHundred;
             LastEndedOnZero = remainder == 0L;
         }
 
-        Console.WriteLine($"Number of rotations that brought dial to exactly 0: {ZeroCount}");
-    }
-
-    private void Debug(long movement, long newHundred)
-    {
-        Console.WriteLine(
-            $"[debug] moved={movement} newD={Dial} lastH={LastHundred} newH={newHundred} zeroCount={ZeroCount}");
+        logger.LogInformation("Number of rotations that brought dial to exactly 0: {ZeroCount}", ZeroCount);
     }
 }

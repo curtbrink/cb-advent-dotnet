@@ -1,19 +1,20 @@
 using AdventBase;
 using AdventBase.Utils;
+using Microsoft.Extensions.Logging;
 
 namespace Advent2025.Solutions;
 
-public class Solution04() : Solution(2025, "04", "2025-04.txt")
+public class Solution04(ILogger<Solution04> logger) : Solution(2025, "04", "2025-04.txt")
 {
     public long PaperRolls { get; private set; } = 0;
     
-    public override void Run(List<string> inputLines, bool partTwo = false, bool debug = false)
+    public override void Run(List<string> inputLines, bool partTwo = false)
     {
         var grid = new PaperRollGrid(inputLines, '.', '@');
 
         PaperRolls = partTwo ? grid.CountRemovedPaperRolls() : grid.GetAccessiblePaperRolls().Count;
 
-        Console.WriteLine($"Count of accessible rolls: {PaperRolls}");
+        logger.LogInformation("Count of accessible rolls: {PaperRolls}", PaperRolls);
     }
 
     public override void Reset()

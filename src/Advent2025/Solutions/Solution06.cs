@@ -1,14 +1,15 @@
 using System.Text.RegularExpressions;
 using AdventBase;
 using AdventBase.Utils;
+using Microsoft.Extensions.Logging;
 
 namespace Advent2025.Solutions;
 
-public partial class Solution06() : Solution(2025, "06", "2025-06.txt", fileParseOption: SolutionParseOption.MultiLineNoTrim)
+public partial class Solution06(ILogger<Solution06> logger) : Solution(2025, "06", "2025-06.txt", fileParseOption: SolutionParseOption.MultiLineNoTrim)
 {
     public long Sum { get; private set; } = 0L;
     
-    public override void Run(List<string> inputLines, bool partTwo = false, bool debug = false)
+    public override void Run(List<string> inputLines, bool partTwo = false)
     {
         if (partTwo) TransposeAndProcess(inputLines);
         else JustProcess(inputLines);
@@ -51,7 +52,7 @@ public partial class Solution06() : Solution(2025, "06", "2025-06.txt", filePars
             Sum += total;
         }
 
-        Console.WriteLine($"Sum of all problems: {Sum}");
+        logger.LogInformation("Sum of all problems: {Sum}", Sum);
     }
 
     private void TransposeAndProcess(List<string> inputLines)
@@ -97,7 +98,7 @@ public partial class Solution06() : Solution(2025, "06", "2025-06.txt", filePars
         }
 
         Sum = total;
-        Console.WriteLine($"Sum of all problems: {Sum}");
+        logger.LogInformation("Sum of all problems: {Sum}", Sum);
     }
 
     public override void Reset()

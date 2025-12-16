@@ -8,12 +8,13 @@ public class Solution11(ILogger<Solution11> logger) : Solution(2025, "11", "2025
     public long NumberOfPaths { get; private set; } = 0L;
     public long NumberOfDacFftPaths { get; private set; } = 0L;
     
-    public override void Run(List<string> inputLines, bool partTwo = false, bool debug = false)
+    public override void Run(List<string> inputLines, bool partTwo = false)
     {
         // parse once for devices
         // parse again to make the graph
         List<Device> allDevices = [];
         allDevices.Add(new Device("out"));
+        logger.LogDebug("I debug now");
         
         var lines = inputLines.Where(line => !string.IsNullOrWhiteSpace(line)).Select(l => l.Split(':')).ToList();
         allDevices.AddRange(lines.Select(line => new Device(line[0])));

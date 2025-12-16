@@ -1,17 +1,15 @@
 using System.Numerics;
 using AdventBase;
+using Microsoft.Extensions.Logging;
 
 namespace Advent2025.Solutions;
 
-public class Solution10() : Solution(2025, "10a", "2025-10.txt")
+public class Solution10(ILogger<Solution10> logger) : Solution(2025, "10a", "2025-10.txt")
 {
     public int MinimumPresses { get; private set; } = 0;
-
-    private bool _debug;
     
-    public override void Run(List<string> inputLines, bool partTwo = false, bool debug = false)
+    public override void Run(List<string> inputLines, bool partTwo = false)
     {
-        _debug = debug;
         // an exercise in bit twiddling? yes please
 
         var machines = inputLines.Where(l => !string.IsNullOrEmpty(l))
@@ -32,7 +30,7 @@ public class Solution10() : Solution(2025, "10a", "2025-10.txt")
             }
         }
 
-        Console.WriteLine($"Minimum presses for all machines: {MinimumPresses}");
+        logger.LogInformation("Minimum presses for all machines: {MinimumPresses}", MinimumPresses);
     }
 
     public override void Reset()
@@ -115,7 +113,7 @@ public class Solution10() : Solution(2025, "10a", "2025-10.txt")
     private int GetMinimumPressesForJoltages(Machine m)
     {
         // I don't know linear programming so we're just gonna wing it I guess
-        if (_debug) Console.WriteLine($"Joltages: {{{string.Join(",", m.Joltages)}}}");
+        logger.LogDebug("Joltages: {Joltages}", string.Join(",", m.Joltages));
         
         // first find the theoretical max presses for each button.
         // if a button is 1001 and our goal is {9,10,4,2}, max for that button is 2.
@@ -149,9 +147,8 @@ public class Solution10() : Solution(2025, "10a", "2025-10.txt")
         }
         
         allButtons = allButtons.OrderByDescending(b => b.Weight).ToList();
-        if (_debug)
-            Console.WriteLine(
-                $"Buttons weighted by impact: {string.Join(" | ", allButtons.Select(b => b.Mask.ToString($"B{m.Joltages.Length}")))}");
+        logger.LogDebug("Buttons weighted by impact: {Buttons}",
+            string.Join(" | ", allButtons.Select(b => b.Mask.ToString($"B{m.Joltages.Length}"))));
         
         // now we can try to recurse for a solution
         var startingCounters = new uint[m.Joltages.Length];
@@ -234,11 +231,8 @@ public class Solution10() : Solution(2025, "10a", "2025-10.txt")
             if (newMinimum < currentMinimum)
             {
                 currentMinimum = newMinimum;
-                
-                if (_debug)
-                {
-                    Console.WriteLine($"b={buttonIdx} -> found new minimum presses = {newMinimum}");
-                }
+
+                logger.LogDebug("b={Idx} -> found new minimum presses = {NewMin}", buttonIdx, newMinimum);
             }
             
             myButton.PushButton(current, p, true);

@@ -1,12 +1,13 @@
 using AdventBase;
+using Microsoft.Extensions.Logging;
 using Microsoft.Z3;
 
 namespace Advent2025.Solutions;
 
-public class Solution10Z3() : Solution(2025, "10b", "2025-10.txt")
+public class Solution10Z3(ILogger<Solution10Z3> logger) : Solution(2025, "10b", "2025-10.txt")
 {
     // note: for this to run/build you need Microsoft.Z3.dll in <solution root>/lib directory.
-    public override void Run(List<string> inputLines, bool partTwo = false, bool debug = false)
+    public override void Run(List<string> inputLines, bool partTwo = false)
     {
         if (!partTwo) return;
 
@@ -15,13 +16,13 @@ public class Solution10Z3() : Solution(2025, "10b", "2025-10.txt")
         var pressTotal = 0;
         foreach (var machine in machines)
         {
-            pressTotal += DoZ3Solve(machine, debug);
+            pressTotal += DoZ3Solve(machine);
         }
 
-        Console.WriteLine($"Total presses for all machines: {pressTotal}");
+        logger.LogInformation("Total presses for all machines: {PressTotal}", pressTotal);
     }
 
-    private int DoZ3Solve(Solution10.Machine m, bool debug = false)
+    private int DoZ3Solve(Solution10.Machine m)
     {
         using var context = new Context();
         var optimize = context.MkOptimize();
@@ -67,7 +68,7 @@ public class Solution10Z3() : Solution(2025, "10b", "2025-10.txt")
 
         if (optimize.Check() == Status.SATISFIABLE)
         {
-            if (debug) Console.WriteLine("Found solution");
+            logger.LogDebug("Found solution");
             
             var model = optimize.Model;
 
@@ -77,15 +78,15 @@ public class Solution10Z3() : Solution(2025, "10b", "2025-10.txt")
             {
                 var v = ((IntNum)model.Evaluate(ie[i])).Int;
                 total += v;
-                if (debug) Console.WriteLine($"Button {i}: {v}");
+                logger.LogDebug("Button {I}: {V}", i, v);
             }
 
-            if (debug) Console.WriteLine($"Total presses: {total}");
+            logger.LogDebug("Total presses: {Total}", total);
 
             return total;
         }
 
-        Console.WriteLine("No solution found :(");
+        logger.LogDebug("No solution found :(");
 
         throw new Exception("No solution found");
     }

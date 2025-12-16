@@ -1,11 +1,12 @@
 using AdventBase;
 using AdventBase.Utils;
+using Microsoft.Extensions.Logging;
 
 namespace Advent2025.Solutions;
 
-public class Solution08() : Solution(2025, "08", "2025-08.txt")
+public class Solution08(ILogger<Solution08> logger) : Solution(2025, "08", "2025-08.txt")
 {
-    public override void Run(List<string> inputLines, bool partTwo = false, bool debug = false)
+    public override void Run(List<string> inputLines, bool partTwo = false)
     {
         // find distance between every pair: (1,000 * 999) / 2 (bidirectional link) = 499500 pairs. not too bad.
         // order by distance via a min heap priority queue on distance. pick the top n pairs to connect.
@@ -53,17 +54,17 @@ public class Solution08() : Solution(2025, "08", "2025-08.txt")
             if (circuitWithA is null && circuitWithB is null)
             {
                 var newCircuit = new Circuit(pair);
-                if (debug) Console.WriteLine($"Created new Circuit [{newCircuit.Id}] with {pair}");
+                logger.LogDebug("Created new Circuit [{Circuit}] with {Pair}", newCircuit.Id, pair);
                 circuits.Add(new Circuit(pair));
             }
             else if (circuitWithA is null)
             {
-                if (debug) Console.WriteLine($"Added {pair.A} to Circuit [{circuitWithB!.Id}]");
+                logger.LogDebug("Added {A} to Circuit [{Circuit}]", pair.A, circuitWithB!.Id);
                 circuitWithB!.Nodes.Add(pair.A);
             }
             else if (circuitWithB is null)
             {
-                if (debug) Console.WriteLine($"Added {pair.B} to Circuit [{circuitWithA.Id}]");
+                logger.LogDebug("Added {B} to Circuit [{Circuit}]", pair.B, circuitWithA.Id);
                 circuitWithA.Nodes.Add(pair.B);
             }
             else
@@ -77,29 +78,29 @@ public class Solution08() : Solution(2025, "08", "2025-08.txt")
                 circuitWithA.Nodes.AddRange(circuitWithB.Nodes);
                 circuits = circuits.Where(c => c.Id != circuitWithB.Id).ToList();
 
-                if (debug)
-                {
-                    Console.WriteLine(
-                        $"Merged circuit [{circuitWithB.Id}] into circuit [{circuitWithA.Id}] and removed old circuit");
-                    Console.WriteLine(
-                        $"New circuit size of [{circuitWithA.Id}] is {circuitWithA.Nodes.Count} (looking for {numberOfBoxes})");
-                }
+                logger.LogDebug("Merged circuit [{CircuitB}] into circuit [{CircuitA}] and removed old circuit",
+                    circuitWithB.Id, circuitWithA.Id);
+                logger.LogDebug("New circuit size of [{CircuitA}] is {Size} (looking for {Goal})", circuitWithA.Id,
+                    circuitWithA.Nodes.Count, numberOfBoxes);
             }
 
             // for part two, if we have a complete graph, we're good
             if (partTwo && ((circuitWithA != null && circuitWithA.Nodes.Count == numberOfBoxes) ||
                             (circuitWithB != null && circuitWithB.Nodes.Count == numberOfBoxes)))
             {
-                Console.WriteLine("We have connected every box!");
-                Console.WriteLine($"The linking pair that caused our circuit to contain every box was: {pair}");
-                Console.WriteLine($"The X coordinates multiplied: {pair.A.X} * {pair.B.X} = {pair.A.X * pair.B.X}");
+                logger.LogInformation("We have connected every box!");
+                logger.LogInformation("The linking pair that caused our circuit to contain every box was: {Pair}",
+                    pair);
+                logger.LogInformation("The X coordinates multiplied: {A} * {B} = {Mult}", pair.A.X, pair.B.X,
+                    pair.A.X * pair.B.X);
                 return;
             }
         }
 
         if (partTwo)
         {
-            Console.WriteLine("Wait ... somehow we connected every possible pair and didn't make a complete graph. :(");
+            logger.LogInformation(
+                "Wait ... somehow we connected every possible pair and didn't make a complete graph. :(");
             return;
         }
 
@@ -115,11 +116,11 @@ public class Solution08() : Solution(2025, "08", "2025-08.txt")
         {
             largest.Add(maxHeapPq.Dequeue().Nodes.Count);
         }
-        Console.WriteLine(
-            $"The 3 largest circuits have {largest[0]}, {largest[1]}, {largest[2]} nodes.");
+
+        logger.LogInformation("The 3 largest circuits have {0}, {1}, {2} nodes.", largest[0], largest[1], largest[2]);
         var mult = largest[0] * largest[1] * largest[2];
 
-        Console.WriteLine($"Multiplied, that's {mult}");
+        logger.LogInformation("Multiplied, that's {Mult}", mult);
     }
 
     public override void Reset()

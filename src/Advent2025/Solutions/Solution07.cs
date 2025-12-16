@@ -1,8 +1,9 @@
 using AdventBase;
+using Microsoft.Extensions.Logging;
 
 namespace Advent2025.Solutions;
 
-public class Solution07()
+public class Solution07(ILogger<Solution07> logger)
     : Solution(2025, "07", "2025-07.txt", singlePart: true, fileParseOption: SolutionParseOption.MultiLineNoTrim)
 {
     public int TotalSplits { get; private set; } = 0;
@@ -12,7 +13,7 @@ public class Solution07()
     private HashSet<int> _currentBeams = [];
     private Dictionary<int, long> _beamIndexTimelines = new();
 
-    public override void Run(List<string> inputLines, bool partTwo = false, bool debug = false)
+    public override void Run(List<string> inputLines, bool partTwo = false)
     {
         // find starting beam
         if (inputLines.Count == 0) throw new Exception("No input");
@@ -64,15 +65,16 @@ public class Solution07()
             _beamIndexTimelines = newTimelines;
         }
 
-        Console.WriteLine($"At the end, there's {TotalBeams} unique beams after {TotalSplits} total splits");
-        Console.WriteLine($"This single particle exists on {TotalTimelines} timelines");
+        logger.LogInformation("At the end, there's {TotalBeams} unique beams after {TotalSplits} total splits",
+            TotalBeams, TotalSplits);
+        logger.LogInformation("This single particle exists on {TotalTimelines} timelines", TotalTimelines);
     }
 
     private void AnalyzeGrid(List<string> inputLines)
     {
         var oneString = string.Concat(inputLines);
         var totalSplitters = oneString.Count(c => c == '^');
-        Console.WriteLine($" => I noticed there's a total of {totalSplitters} splitters");
+        logger.LogInformation(" => I noticed there's a total of {totalSplitters} splitters", totalSplitters);
     }
 
     public override void Reset()

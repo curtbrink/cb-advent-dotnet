@@ -1,12 +1,13 @@
 using AdventBase;
+using Microsoft.Extensions.Logging;
 
 namespace Advent2025.Solutions;
 
-public class Solution03() : Solution(2025, "03", "2025-03.txt")
+public class Solution03(ILogger<Solution03> logger) : Solution(2025, "03", "2025-03.txt")
 {
     public long MaxJoltage { get; private set; } = 0;
     
-    public override void Run(List<string> inputLines, bool partTwo = false, bool debug = false)
+    public override void Run(List<string> inputLines, bool partTwo = false)
     {
         var batteryQuota = partTwo ? 12 : 2;
         
@@ -15,7 +16,8 @@ public class Solution03() : Solution(2025, "03", "2025-03.txt")
             MaxJoltage += GetMaxForBankWithNBatteries(bank, batteryQuota);
         }
 
-        Console.WriteLine($"Max joltage available from all {inputLines.Count} battery banks is: {MaxJoltage}");
+        logger.LogInformation("Max joltage available from all {Inputs} battery banks is: {MaxJoltage}",
+            inputLines.Count, MaxJoltage);
     }
 
     private long GetMaxForBankWithNBatteries(string bank, int n)
