@@ -1,9 +1,10 @@
 using AdventBase;
 using AdventBase.Utils;
+using Microsoft.Extensions.Logging;
 
 namespace Advent2016.Solutions;
 
-public class Solution01() : Solution("2016-01.txt", fileParseOption: SolutionParseOption.SingleLine)
+public class Solution01(ILogger<Solution01> logger) : Solution(2016, "01", "2016-01.txt", fileParseOption: SolutionParseOption.SingleLine)
 {
     public int TotalDistance => Math.Abs(_x) + Math.Abs(_y);
 
@@ -12,11 +13,11 @@ public class Solution01() : Solution("2016-01.txt", fileParseOption: SolutionPar
     private Direction _direction = Direction.North;
     private HashSet<ValueTuple<int, int>> _haveVisited = [ValueTuple.Create(0, 0)];
     
-    public override void Run(List<string> inputLines, bool partTwo = false, bool debug = false)
+    public override void Run(List<string> inputLines, bool partTwo = false)
     {
         var haveVisited = new HashSet<ValueTuple<int, int>>();
         haveVisited.Add(ValueTuple.Create(_x, _y));
-        Console.WriteLine("Added 0,0 to haveVisited");
+        logger.LogDebug("Added 0,0 to haveVisited");
 
         foreach (var line in inputLines)
         {
@@ -35,7 +36,7 @@ public class Solution01() : Solution("2016-01.txt", fileParseOption: SolutionPar
             }
         }
 
-        Console.WriteLine($"I am {TotalDistance} units away from spawn!");
+        logger.LogInformation("I am {TotalDistance} units away from spawn!", TotalDistance);
     }
 
     private void MoveP1(int distance)

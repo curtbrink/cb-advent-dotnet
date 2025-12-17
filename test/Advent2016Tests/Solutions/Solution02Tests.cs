@@ -27,4 +27,6 @@ public class Solution02Tests : AdventSolutionTests<Solution02>
         
         Assert.Equal("5DB3", sut.KeyCode);
     }
+    
+    private Solution02 GetSut() => new(Logger);
 }

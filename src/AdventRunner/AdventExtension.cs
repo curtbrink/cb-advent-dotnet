@@ -1,3 +1,4 @@
+using Advent2016;
 using Advent2025;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -9,7 +10,8 @@ public static class AdventExtension
     public static IServiceCollection AddAdventYears(this IServiceCollection serviceCollection, bool debug)
     {
         serviceCollection.AddSingleton<AdventRegistry>();
-        
+
+        serviceCollection.AddAdvent2016();
         serviceCollection.AddAdvent2025();
         
         serviceCollection.AddAdventLogging(debug);

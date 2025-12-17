@@ -29,4 +29,6 @@ public class Solution01Tests : AdventSolutionTests<Solution01>
 
         Assert.Equal(4, solution.TotalDistance);
     }
+
+    private Solution01 GetSut() => new(Logger);
 }

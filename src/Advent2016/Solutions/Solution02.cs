@@ -1,9 +1,10 @@
 using AdventBase;
 using AdventBase.Utils;
+using Microsoft.Extensions.Logging;
 
 namespace Advent2016.Solutions;
 
-public class Solution02() : Solution("2016-02.txt")
+public class Solution02(ILogger<Solution02> logger) : Solution(2016, "02", "2016-02.txt")
 {
     public string KeyCode { get; private set; } = "";
 
@@ -17,7 +18,7 @@ public class Solution02() : Solution("2016-02.txt")
     private int _x = 1;
     private int _y = 1;
     
-    public override void Run(List<string> inputLines, bool partTwo = false, bool debug = false)
+    public override void Run(List<string> inputLines, bool partTwo = false)
     {
         foreach (var line in inputLines)
         {
@@ -32,7 +33,7 @@ public class Solution02() : Solution("2016-02.txt")
             Next(partTwo ? _keyPadP2 : _keyPadP1);
         }
 
-        Console.WriteLine($"My keycode is {KeyCode}");
+        logger.LogInformation("My keycode is {KeyCode}", KeyCode);
     }
 
     private void MoveAndClampP1(int x, int y)
@@ -49,7 +50,7 @@ public class Solution02() : Solution("2016-02.txt")
     {
         var newX = _x + x;
         var newY = _y + y;
-        Console.WriteLine($"Attempting move from {_x},{_y} to {newX},{newY}");
+        logger.LogDebug("Attempting move from {_x},{_y} to {newX},{newY}", _x, _y, newX, newY);
         if (newX < 0 || newX > 4 || newY < 0 || newY > 4 || _keyPadP2[newY][newX] == ' ') return;
 
         _x = newX;
