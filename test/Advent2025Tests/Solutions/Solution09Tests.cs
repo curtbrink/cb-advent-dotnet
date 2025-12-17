@@ -23,7 +23,9 @@ public class Solution09Tests : AdventSolutionTests<Solution09>
         
         var sut = GetSut();
 
-        sut.Run(input, true, true);
+        sut.Run(input, true);
         Assert.Equal(24, sut.LargestValidArea);
     }
+    
+    private Solution09 GetSut() => new(Logger);
 }

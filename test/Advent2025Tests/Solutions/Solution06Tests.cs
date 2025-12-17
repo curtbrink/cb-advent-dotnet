@@ -38,4 +38,6 @@ public class Solution06Tests : AdventSolutionTests<Solution06>
 
         Assert.Equal(3263827, sut.Sum);
     }
+    
+    private Solution06 GetSut() => new(Logger);
 }

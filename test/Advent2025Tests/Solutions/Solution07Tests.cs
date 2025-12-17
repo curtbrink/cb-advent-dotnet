@@ -19,4 +19,6 @@ public class Solution07Tests : AdventSolutionTests<Solution07>
         Assert.Equal(9, solution.TotalBeams);
         Assert.Equal(40, solution.TotalTimelines);
     }
+    
+    private Solution07 GetSut() => new(Logger);
 }

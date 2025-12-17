@@ -34,13 +34,15 @@ public class Solution01Tests : AdventSolutionTests<Solution01>
         ];
         var solution = GetSut();
 
-        solution.Run(basicLines, false, true);
+        solution.Run(basicLines, false);
         var actualP1 = solution.ZeroCount;
         Assert.Equal(8, actualP1);
 
         solution.Reset();
-        solution.Run(basicLines, true, true);
+        solution.Run(basicLines, true);
         var actualP2 = solution.ZeroCount;
         Assert.Equal(17, actualP2);
     }
+
+    private Solution01 GetSut() => new(Logger);
 }

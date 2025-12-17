@@ -30,4 +30,6 @@ public class Solution10Tests : AdventSolutionTests<Solution10>
 
         Assert.Equal(expectedPresses, sol.MinimumPresses);
     }
+    
+    private Solution10 GetSut() => new(Logger);
 }

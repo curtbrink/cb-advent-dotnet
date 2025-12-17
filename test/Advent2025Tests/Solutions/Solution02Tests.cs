@@ -40,8 +40,10 @@ public class Solution02Tests : AdventSolutionTests<Solution02>
     public void TestP2Examples(string ids, long expectedSum)
     {
         var sol = GetSut();
-        sol.Run([ids], true, true);
+        sol.Run([ids], true);
 
         Assert.Equal(expectedSum, sol.InvalidIdSum);
     }
+    
+    private Solution02 GetSut() => new(Logger);
 }

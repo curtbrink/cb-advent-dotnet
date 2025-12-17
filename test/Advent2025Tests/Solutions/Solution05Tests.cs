@@ -16,4 +16,6 @@ public class Solution05Tests : AdventSolutionTests<Solution05>
 
         Assert.Equal(14, sol.TotalPossibleFresh);
     }
+    
+    private Solution05 GetSut() => new(Logger);
 }

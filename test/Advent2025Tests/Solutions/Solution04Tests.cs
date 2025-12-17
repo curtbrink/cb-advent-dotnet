@@ -32,4 +32,6 @@ public class Solution04Tests : AdventSolutionTests<Solution04>
 
         Assert.Equal(paperRolls, solution.PaperRolls);
     }
+    
+    private Solution04 GetSut() => new(Logger);
 }

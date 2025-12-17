@@ -32,4 +32,6 @@ public class Solution03Tests : AdventSolutionTests<Solution03>
 
         Assert.Equal(maxJoltage, solution.MaxJoltage);
     }
+    
+    private Solution03 GetSut() => new(Logger);
 }
