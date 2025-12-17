@@ -4,9 +4,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 // ======= SET THESE
-var year = 2016;
-var id = "02";
-var debug = true;
+var year = 2025;
+var id = "12";
+var debug = false;
 
 // ======= DON'T CHANGE BELOW THIS LINE
 
