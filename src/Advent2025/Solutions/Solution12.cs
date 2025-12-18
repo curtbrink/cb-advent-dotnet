@@ -4,14 +4,23 @@ using Csp.Core.Solvers.Shared.Interfaces;
 using Csp.Core.Solvers.Shared.Models;
 using Csp.Puzzles.Polyomino.Builders;
 using Csp.Puzzles.Polyomino.Models;
+using Csp.Puzzles.Polyomino.Pruners;
 using Microsoft.Extensions.Logging;
 
 namespace Advent2025.Solutions;
 
-public class Solution12(ILogger<Solution12> logger, ISearchSolver<Placement> backtracker) : Solution(2025, "12", "2025-12.txt")
+public class Solution12(
+    ILogger<Solution12> logger,
+    ISearchSolver<Placement> backtracker,
+    IEnumerable<IPruner<ISearchState<Placement>, Placement>> pruners) : Solution(2025, "12", "2025-12.txt")
 {
     public override void Run(List<string> inputLines, bool partTwo = false)
     {
+        if (partTwo) return;
+        foreach (var pruner in pruners)
+        {
+            backtracker.AddPruner(pruner);
+        }
         List<Polyomino> pieces = [];
         // first 6 chunks of 5 lines are polyominoes we can parse
         for (var i = 0; i < 6; i++)
@@ -33,30 +42,49 @@ public class Solution12(ILogger<Solution12> logger, ISearchSolver<Placement> bac
         var totalMs = 0L;
         foreach (var testLine in testLines)
         {
+            if (string.IsNullOrWhiteSpace(testLine)) continue;
             var split = testLine.Split(": ");
             var gridSizes = split[0].Split('x').Select(int.Parse).ToArray();
+            var totalSizeAvailable = gridSizes[0] * gridSizes[1];
 
             var polyBuilder = PolyominoBuilder.Create(gridSizes[0], gridSizes[1]);
 
             var quotas = split[1].Split(' ').Select(int.Parse).ToArray();
+            var pDict = new Dictionary<Polyomino, int>();
+            var totalSizeRequired = 0;
             for (var i = 0; i < quotas.Length; i++)
             {
+                totalSizeRequired += pieces[i].TileCount * quotas[i];
+                pDict[pieces[i]] = quotas[i];
                 if (quotas[i] == 0) continue;
 
                 polyBuilder.AddPolyomino(pieces[i], quotas[i]);
             }
 
-            var builtPolyomino = polyBuilder.Build();
+            totalCount++;
+            if (totalSizeRequired > totalSizeAvailable)
+            {
+                logger.LogInformation("Pretty sus. {0} > {1}", totalSizeRequired, totalSizeAvailable);
+                continue;
+            }
+
+            successCount++;
+
+            var searchState = new PolyominoSearchState
+                { GridHeight = gridSizes[1], GridWidth = gridSizes[0], Pieces = pieces, Quotas = pDict };
+
+
+            // var builtPolyomino = polyBuilder.Build();
 
             var stopwatch = Stopwatch.StartNew();
-            var polyResult = backtracker.Solve(builtPolyomino);
+            // var polyResult = backtracker.Solve(builtPolyomino, searchState);
             var elapsed = stopwatch.ElapsedMilliseconds;
 
-            logger.LogInformation("[{T}ms] Finished! {R}", elapsed, polyResult.Status.ToString());
+            // logger.LogInformation("[{T}ms] Finished! {R}", elapsed, polyResult.Status.ToString());
 
             totalMs += elapsed;
-            totalCount++;
-            if (polyResult.Status == SolveStatus.Satisfied) successCount++;
+            // totalCount++;
+            // if (polyResult.Status == SolveStatus.Satisfied) successCount++;
         }
 
         logger.LogInformation("Finished all! Out of {Total} polyomino challenges, {Success} have a solution!",
@@ -73,4 +101,3 @@ public class Solution12(ILogger<Solution12> logger, ISearchSolver<Placement> bac
 // trial 1: 69.615 seconds
 // trial 2: 76.857 seconds
 // trial 3: 76.577 seconds
-

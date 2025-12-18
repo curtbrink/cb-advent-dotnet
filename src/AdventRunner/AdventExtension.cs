@@ -29,6 +29,7 @@ public static class AdventExtension
                 f.SingleLine = true;
                 f.IncludeScopes = false;
             });
+            // lb.AddFilter("Csp.Core.Solvers.Backtrack", LogLevel.Debug);
         });
         return serviceCollection;
     }

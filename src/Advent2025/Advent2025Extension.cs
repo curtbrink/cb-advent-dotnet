@@ -4,6 +4,7 @@ using Csp.Core.Solvers.Backtrack;
 using Csp.Core.Solvers.Gac;
 using Csp.Core.Solvers.Shared.Interfaces;
 using Csp.Puzzles.Polyomino.Models;
+using Csp.Puzzles.Polyomino.Pruners;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Advent2025;
@@ -36,6 +37,7 @@ public static class Advent2025Extension
         // add polyomino solver services
         services.AddTransient<IInferenceSolver<Placement>, GacSolver<Placement>>();
         services.AddTransient<ISearchSolver<Placement>, BacktrackSolver<Placement>>();
+        services.AddTransient<IPruner<ISearchState<Placement>, Placement>, HoleAnalysisPruner>();
         return services;
     }
 }
